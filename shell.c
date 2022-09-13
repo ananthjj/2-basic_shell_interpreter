@@ -1,3 +1,4 @@
+#define _POSIX_SOURCE
 #include "shell.h"
 #include <stdio.h>
 #include <sys/types.h>
@@ -5,6 +6,11 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
+
+void killChild(int sig) {
+    kill(getpid(),SIGKILL);
+}
 
 void execute(char* const args[])
 {
@@ -15,6 +21,7 @@ void execute(char* const args[])
     for (i = 0; args[i] != NULL; i++)
         printf(" %s", args[i]);
     printf(" (%d words)\n", i);
+    signal(SIGALRM,killChild);
     pid = fork();
     if (pid == 0) {
 	char temp[] = "/bin/";
@@ -27,6 +34,7 @@ void execute(char* const args[])
 	exit(1);
 	}
     if (pid > 0) {
+	alarm(2);
 	pid = wait(&status);
    	if (WIFEXITED(status)) {
 		int statVal = WEXITSTATUS(status);
@@ -45,3 +53,4 @@ void execute(char* const args[])
 	perror("In fork():");
 	}
 }
+

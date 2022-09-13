@@ -21,6 +21,8 @@ stdlib.h
 -
 string.h
 -
+signal.h
+-
 
 /home/ananth/Desktop/CS 3281f22/assignment-2-ananthjj/shell.h
 
