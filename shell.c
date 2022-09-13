@@ -34,7 +34,7 @@ void execute(char* const args[])
 	exit(1);
 	}
     if (pid > 0) {
-	alarm(2);
+	alarm(1);
 	pid = wait(&status);
    	if (WIFEXITED(status)) {
 		int statVal = WEXITSTATUS(status);
